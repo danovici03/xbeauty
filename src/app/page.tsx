@@ -12,7 +12,7 @@ import { Cta } from "@/components/sections/cta";
 export default function Home() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader overlay />
       <main>
         <Hero />
         <LogoStrip />

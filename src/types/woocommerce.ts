@@ -9,6 +9,16 @@ export type WCCategory = {
   id: number;
   name: string;
   slug: string;
+  count?: number;
+  parent?: number;
+};
+
+export type WCAttribute = {
+  id: number;
+  name: string;
+  slug: string;
+  options: string[];
+  visible: boolean;
 };
 
 export type WCProduct = {
@@ -30,6 +40,10 @@ export type WCProduct = {
   stock_quantity: number | null;
   categories: WCCategory[];
   images: WCImage[];
+  attributes: WCAttribute[];
+  related_ids: number[];
+  average_rating: string;
+  rating_count: number;
 };
 
 export type WCProductListParams = {
@@ -40,7 +54,12 @@ export type WCProductListParams = {
   tag?: string;
   featured?: boolean;
   on_sale?: boolean;
+  min_price?: string | number;
+  max_price?: string | number;
+  stock_status?: "instock" | "outofstock" | "onbackorder";
   orderby?: "date" | "id" | "title" | "slug" | "price" | "popularity" | "rating";
   order?: "asc" | "desc";
   slug?: string;
+  include?: number[];
+  exclude?: number[];
 };

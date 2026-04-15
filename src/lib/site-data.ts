@@ -1,11 +1,12 @@
 export type NavLink = { name: string; href: string };
 
 export const NAV_LINKS: NavLink[] = [
-  { name: "Acasă", href: "#" },
-  { name: "Echipamente", href: "#devices" },
-  { name: "Tratamente", href: "#treatments" },
-  { name: "Suport Afaceri", href: "#business-support" },
-  { name: "Despre Noi", href: "#about" },
+  { name: "Acasă", href: "/" },
+  { name: "Catalog", href: "/echipamente" },
+  { name: "Epilare", href: "/epilare" },
+  { name: "Bronzare", href: "/bronzare" },
+  { name: "Calculator", href: "/calculator" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export type FallbackDevice = {

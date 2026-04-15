@@ -111,3 +111,19 @@ export async function listCategories(): Promise<WCCategory[]> {
     tags: ["wc:categories"],
   });
 }
+
+export async function getCategoryBySlug(slug: string): Promise<WCCategory | null> {
+  const list = await wcJson<WCCategory[]>(
+    `/products/categories${buildQuery({ slug, per_page: 1 })}`,
+    { revalidate: 300, tags: ["wc:categories", `wc:category:${slug}`] },
+  );
+  return list[0] ?? null;
+}
+
+export async function listProductsByIds(ids: number[]): Promise<WCProduct[]> {
+  if (ids.length === 0) return [];
+  return wcJson<WCProduct[]>(
+    `/products${buildQuery({ include: ids, per_page: ids.length })}`,
+    { revalidate: 60, tags: ["wc:products"] },
+  );
+}

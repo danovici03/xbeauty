@@ -99,11 +99,11 @@ export function SiteFooter() {
         <div className="border-t border-slate-800/60 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-medium">
           <p>&copy; 2026 XBeauty. Toate drepturile rezervate.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">
-              Politica de Confidențialitate
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Termeni și Condiții
+            <a
+              href="/confidentialitate"
+              className="hover:text-white transition-colors"
+            >
+              Confidențialitate &amp; Cookies
             </a>
           </div>
         </div>

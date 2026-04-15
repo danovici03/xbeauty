@@ -117,6 +117,17 @@ export async function getPageBySlug(slug: string): Promise<WPPage | null> {
   return items[0] ?? null;
 }
 
+export async function getPageById(id: number): Promise<WPPage | null> {
+  try {
+    return await wpJson<WPPage>(`/pages/${id}`, {
+      revalidate: 300,
+      tags: ["wp:pages", `wp:page:${id}`],
+    });
+  } catch {
+    return null;
+  }
+}
+
 export async function getMedia(id: number): Promise<WPMedia> {
   return wpJson<WPMedia>(`/media/${id}`, {
     revalidate: 300,
