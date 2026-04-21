@@ -114,5 +114,3 @@ export const TESTIMONIALS: Testimonial[] = [
     rating: 5,
   },
 ];
-
-export const PRESS_LOGOS = ["VOGUE", "Aesthetics", "HARPERS BAZAAR", "ELLE", "Tatler"];
