@@ -199,18 +199,15 @@ function DeviceCardItem({ device }: { device: DeviceCard }) {
       className="group relative flex flex-col h-full select-none"
     >
       <div className="relative aspect-[4/5] rounded-[2rem] bg-gradient-to-b from-white to-slate-50 border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-pink-900/5 hover:border-pink-200 transition-all duration-500 overflow-hidden mb-5 hover:-translate-y-1.5">
-        <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-20">
-          <span className="text-[10px] md:text-xs font-bold tracking-widest uppercase text-pink-600 bg-white/90 backdrop-blur-md border border-pink-100 px-3 py-1.5 rounded-full shadow-sm line-clamp-1">
-            {device.category}
-          </span>
-          <div className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-400 group-hover:text-white group-hover:bg-pink-600 transition-all shadow-sm border border-slate-100 group-hover:border-pink-600 flex-shrink-0">
+        <div className="absolute top-4 right-4 z-20">
+          <div className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-400 group-hover:text-white group-hover:bg-pink-600 transition-all shadow-sm border border-slate-100 group-hover:border-pink-600">
             <ArrowRight
               size={16}
               className="-rotate-45 group-hover:rotate-0 transition-transform duration-300"
             />
           </div>
         </div>
-        <div className="absolute inset-0 p-6 pt-20 flex items-center justify-center">
+        <div className="absolute inset-0 p-6 pt-16 flex items-center justify-center">
           <div className="relative w-full h-full rounded-2xl overflow-hidden">
             <Image
               src={device.image}
