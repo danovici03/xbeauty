@@ -1,9 +1,23 @@
 import { NextResponse } from "next/server";
 import { sendEmail, escapeHtml } from "@/lib/email";
-import { isEmail, trimOr } from "@/lib/validation";
+import { isEmail, isRoPhone, normalizeRoPhone, trimOr } from "@/lib/validation";
 import { SITE_URL } from "@/lib/site-url";
+import { getClientIp, rateLimit, verifyTurnstile } from "@/lib/security";
 
 export async function POST(request: Request) {
+  const ip = getClientIp(request.headers);
+
+  const limit = rateLimit(`quote:${ip}`, { limit: 5, windowMs: 60 * 60_000 });
+  if (!limit.ok) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "Prea multe încercări. Reîncearcă peste câteva minute.",
+      },
+      { status: 429, headers: { "Retry-After": String(limit.retryAfter) } },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -20,9 +34,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
+  const turnstileToken = trimOr(payload.turnstileToken, 4000) ?? undefined;
+  const turnstileOk = await verifyTurnstile(turnstileToken, ip);
+  if (!turnstileOk) {
+    return NextResponse.json(
+      { ok: false, error: "Verificare anti-spam eșuată. Reîncearcă." },
+      { status: 400 },
+    );
+  }
+
   const name = trimOr(payload.name, 120);
   const email = trimOr(payload.email, 200);
-  const phone = trimOr(payload.phone, 40) ?? "";
+  const rawPhone = trimOr(payload.phone, 40) ?? "";
+  const phone = rawPhone ? (normalizeRoPhone(rawPhone) ?? "") : "";
   const company = trimOr(payload.company, 200) ?? "";
   const message = trimOr(payload.message, 3000) ?? "";
   const productName = trimOr(payload.productName, 200) ?? "";
@@ -38,6 +62,12 @@ export async function POST(request: Request) {
   if (!email || !isEmail(email)) {
     return NextResponse.json(
       { ok: false, error: "Email invalid." },
+      { status: 400 },
+    );
+  }
+  if (rawPhone && !isRoPhone(rawPhone)) {
+    return NextResponse.json(
+      { ok: false, error: "Telefon invalid. Format: 07XX XXX XXX." },
       { status: 400 },
     );
   }

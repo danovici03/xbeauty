@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   X,
   Send,
@@ -9,6 +9,8 @@ import {
   Loader2,
   Mail,
 } from "lucide-react";
+import { trackLead } from "@/lib/track";
+import { TurnstileWidget } from "./turnstile-widget";
 
 type Props = {
   productName: string;
@@ -36,6 +38,11 @@ export function RequestQuoteModal({
   const [company, setCompany] = useState("");
   const [message, setMessage] = useState("");
   const [website, setWebsite] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+
+  const onTurnstileToken = useCallback((token: string) => {
+    setTurnstileToken(token);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -56,6 +63,7 @@ export function RequestQuoteModal({
     setPhone("");
     setCompany("");
     setMessage("");
+    setTurnstileToken("");
     setStatus("idle");
     setError("");
   };
@@ -85,6 +93,7 @@ export function RequestQuoteModal({
           productSlug,
           productSku,
           website,
+          turnstileToken,
         }),
       });
       const data = await res.json();
@@ -92,6 +101,7 @@ export function RequestQuoteModal({
         throw new Error(data.error ?? "A apărut o eroare.");
       }
       setStatus("success");
+      trackLead("quote_modal");
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Eroare necunoscută.");
@@ -243,6 +253,10 @@ export function RequestQuoteModal({
                       placeholder="Spune-ne despre clinica ta, volumul estimat, când vrei să demarezi..."
                     />
                   </label>
+                </div>
+
+                <div className="mt-4">
+                  <TurnstileWidget onToken={onTurnstileToken} />
                 </div>
 
                 {status === "error" && (

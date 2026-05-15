@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export function Hero() {
   return (
@@ -20,33 +20,33 @@ export function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mt-16">
         <div className="max-w-2xl text-white">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-xs font-bold text-pink-300 mb-8 uppercase tracking-widest shadow-sm">
-            <Star size={12} className="fill-current" /> Echipamente Premium
+            <Sparkles size={12} className="fill-current" /> Partener pentru clinici și saloane
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.15] mb-6">
-            Cea Mai Inovatoare Gamă de Dispozitive.
-            <br className="hidden md:block" />
+            Echipamente estetice
+            <br className="hidden md:block" />{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-pink-600">
-              Creată Pentru a Te Remarca.
+              pentru afaceri care cresc.
             </span>
           </h1>
 
           <p className="text-lg text-slate-300 mb-10 leading-relaxed font-light max-w-xl">
-            Încorporând cea mai bună tehnologie din clasă, suport personalizat și grijă excepțională pentru clienți.
+            Vânzare, leasing și consultanță pentru clinici de estetică, dermatologie și saloane de înfrumusețare. Tehnologie certificată, training inclus și suport tehnic în 48h.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <a
-              href="#devices"
+              href="/contact"
               className="w-full sm:w-auto bg-pink-600 hover:bg-pink-500 text-white px-8 py-4 rounded-full font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-pink-600/20 hover:shadow-pink-600/40 hover:-translate-y-0.5"
             >
-              Explorează Echipamentele
+              Solicită ofertă
             </a>
             <a
-              href="#contact"
+              href="#devices"
               className="w-full sm:w-auto text-white hover:text-pink-400 font-medium transition-colors flex items-center justify-center gap-2 group"
             >
-              Află Mai Multe{" "}
+              Vezi echipamentele{" "}
               <ArrowRight
                 size={18}
                 className="group-hover:translate-x-1 transition-transform"

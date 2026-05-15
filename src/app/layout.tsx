@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/json-ld";
 import { organizationSchema, websiteSchema } from "@/lib/structured-data";
 import { CookieBanner } from "@/components/cookie-banner";
 import { ScrollToTop } from "@/components/scroll-to-top";
+import { Analytics } from "@/components/analytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -95,6 +96,7 @@ export default function RootLayout({
         {children}
         <ScrollToTop />
         <CookieBanner />
+        <Analytics />
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
       </body>
     </html>

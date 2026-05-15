@@ -38,7 +38,7 @@ export function DevicesCarousel({ devices, categories }: Props) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     loop: false,
-    slidesToScroll: 1,
+    slidesToScroll: "auto",
     containScroll: "trimSnaps",
   });
 

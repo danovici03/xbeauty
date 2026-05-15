@@ -7,8 +7,14 @@ const STATIC_ROUTES: { path: string; priority: number; changeFrequency: Metadata
   { path: "/echipamente", priority: 0.9, changeFrequency: "daily" },
   { path: "/epilare", priority: 0.8, changeFrequency: "weekly" },
   { path: "/bronzare", priority: 0.8, changeFrequency: "weekly" },
-  { path: "/calculator", priority: 0.6, changeFrequency: "monthly" },
+  { path: "/calculator", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/finantare", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/training", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/service", priority: 0.6, changeFrequency: "monthly" },
+  { path: "/despre", priority: 0.6, changeFrequency: "monthly" },
   { path: "/contact", priority: 0.5, changeFrequency: "yearly" },
+  { path: "/termeni", priority: 0.3, changeFrequency: "yearly" },
+  { path: "/confidentialitate", priority: 0.3, changeFrequency: "yearly" },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

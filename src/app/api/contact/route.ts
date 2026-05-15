@@ -1,8 +1,22 @@
 import { NextResponse } from "next/server";
 import { sendEmail, escapeHtml } from "@/lib/email";
-import { isEmail, trimOr } from "@/lib/validation";
+import { isEmail, isRoPhone, normalizeRoPhone, trimOr } from "@/lib/validation";
+import { getClientIp, rateLimit, verifyTurnstile } from "@/lib/security";
 
 export async function POST(request: Request) {
+  const ip = getClientIp(request.headers);
+
+  const limit = rateLimit(`contact:${ip}`, { limit: 5, windowMs: 60 * 60_000 });
+  if (!limit.ok) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "Prea multe încercări. Reîncearcă peste câteva minute.",
+      },
+      { status: 429, headers: { "Retry-After": String(limit.retryAfter) } },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -20,10 +34,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
+  const turnstileToken = trimOr(payload.turnstileToken, 4000) ?? undefined;
+  const turnstileOk = await verifyTurnstile(turnstileToken, ip);
+  if (!turnstileOk) {
+    return NextResponse.json(
+      { ok: false, error: "Verificare anti-spam eșuată. Reîncearcă." },
+      { status: 400 },
+    );
+  }
+
   const firstName = trimOr(payload.firstName, 80);
   const lastName = trimOr(payload.lastName, 80);
   const email = trimOr(payload.email, 200);
-  const phone = trimOr(payload.phone, 40) ?? "";
+  const rawPhone = trimOr(payload.phone, 40) ?? "";
+  const phone = rawPhone ? (normalizeRoPhone(rawPhone) ?? "") : "";
   const subject = trimOr(payload.subject, 200) ?? "Contact de pe xbeauty.ro";
   const message = trimOr(payload.message, 3000);
 
@@ -36,6 +60,12 @@ export async function POST(request: Request) {
   if (!email || !isEmail(email)) {
     return NextResponse.json(
       { ok: false, error: "Email invalid." },
+      { status: 400 },
+    );
+  }
+  if (rawPhone && !isRoPhone(rawPhone)) {
+    return NextResponse.json(
+      { ok: false, error: "Telefon invalid. Format: 07XX XXX XXX." },
       { status: 400 },
     );
   }

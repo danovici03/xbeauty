@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Download, Hexagon } from "lucide-react";
 
 export function CatalogDownload() {
@@ -61,16 +62,19 @@ export function CatalogDownload() {
             <p className="text-lg text-slate-300 mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed font-light">
               Descoperă detaliile complete ale întregii noastre game de echipamente estetice, specificații tehnice, randament (ROI) și pachete de suport.
             </p>
-            <a
-              href="#contact"
+            <Link
+              href="/contact?subiect=Solicit+catalog+PDF+XBeauty+2026"
               className="bg-pink-600 hover:bg-pink-500 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all shadow-lg shadow-pink-600/20 hover:shadow-pink-600/40 hover:-translate-y-0.5 inline-flex items-center justify-center gap-3 group"
             >
               <Download
                 size={20}
                 className="group-hover:-translate-y-1 transition-transform"
               />
-              <span>Descarcă PDF</span>
-            </a>
+              <span>Cere catalogul pe email</span>
+            </Link>
+            <p className="text-xs text-slate-400 mt-4 max-w-md">
+              Îți trimitem catalogul complet pe email, împreună cu lista de prețuri și ghidul de finanțare.
+            </p>
           </div>
         </div>
       </div>

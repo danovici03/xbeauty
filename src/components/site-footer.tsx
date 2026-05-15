@@ -1,15 +1,22 @@
+import Link from "next/link";
 import { Hexagon, Mail, MapPin, Phone } from "lucide-react";
+import { COMPANY_INFO } from "@/lib/site-data";
 
-const QUICK_LINKS = [
-  "Acasă",
-  "Despre Noi",
-  "Ultimele Noutăți",
-  "Finanțare",
-  "Cariere",
-  "Contact",
+const QUICK_LINKS: { name: string; href: string }[] = [
+  { name: "Despre noi", href: "/despre" },
+  { name: "Catalog echipamente", href: "/echipamente" },
+  { name: "Finanțare", href: "/finantare" },
+  { name: "Training", href: "/training" },
+  { name: "Service & suport", href: "/service" },
+  { name: "Calculator ROI", href: "/calculator" },
+  { name: "Contact", href: "/contact" },
 ];
 
-const TOP_DEVICES = ["SMARTDiode", "SkinXcell", "Mezotix", "SMARTSculpt Pro", "Tixel"];
+const TOP_CATEGORIES: { name: string; href: string }[] = [
+  { name: "Epilare laser", href: "/epilare" },
+  { name: "Bronzare", href: "/bronzare" },
+  { name: "Toate echipamentele", href: "/echipamente" },
+];
 
 export function SiteFooter() {
   return (
@@ -34,13 +41,13 @@ export function SiteFooter() {
             </h4>
             <ul className="space-y-4">
               {QUICK_LINKS.map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
                     className="hover:text-pink-400 transition-colors text-sm font-medium"
                   >
-                    {item}
-                  </a>
+                    {item.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -48,17 +55,17 @@ export function SiteFooter() {
 
           <div>
             <h4 className="text-white font-bold mb-6 uppercase text-sm tracking-wider">
-              Echipamente de Top
+              Categorii
             </h4>
             <ul className="space-y-4">
-              {TOP_DEVICES.map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
+              {TOP_CATEGORIES.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
                     className="hover:text-pink-400 transition-colors text-sm font-medium"
                   >
-                    {item}
-                  </a>
+                    {item.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -72,39 +79,82 @@ export function SiteFooter() {
               <li className="flex items-start gap-3">
                 <MapPin size={18} className="text-pink-500 mt-1 flex-shrink-0" />
                 <span className="text-sm">
-                  Unit 1, The Smart Building
-                  <br />
-                  Innovation Park, RO
+                  {COMPANY_INFO.addressLines.map((line, i) => (
+                    <span key={line}>
+                      {line}
+                      {i < COMPANY_INFO.addressLines.length - 1 && <br />}
+                    </span>
+                  ))}
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={18} className="text-pink-500 flex-shrink-0" />
-                <a href="tel:01344411480" className="text-sm hover:text-pink-400">
-                  01344 411480
+                <a
+                  href={`tel:${COMPANY_INFO.phone.replace(/\s/g, "")}`}
+                  className="text-sm hover:text-pink-400"
+                >
+                  {COMPANY_INFO.phone}
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={18} className="text-pink-500 flex-shrink-0" />
                 <a
-                  href="mailto:contact@xbeauty.ro"
+                  href={`mailto:${COMPANY_INFO.email}`}
                   className="text-sm hover:text-pink-400"
                 >
-                  contact@xbeauty.ro
+                  {COMPANY_INFO.email}
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-slate-800/60 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-medium">
-          <p>&copy; 2026 XBeauty. Toate drepturile rezervate.</p>
-          <div className="flex gap-6">
+        <div className="border-t border-slate-800/60 pt-8 space-y-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs">
             <a
-              href="/confidentialitate"
+              href="https://anpc.ro"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-white transition-colors"
             >
-              Confidențialitate &amp; Cookies
+              ANPC
             </a>
+            <a
+              href="https://anpc.ro/ce-este-sal/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              Soluționarea Alternativă a Litigiilor (SAL)
+            </a>
+            <a
+              href="https://ec.europa.eu/consumers/odr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              Soluționarea Online a Litigiilor (SOL)
+            </a>
+          </div>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-medium">
+            <p>
+              &copy; 2026 {COMPANY_INFO.legalName} — CUI {COMPANY_INFO.cui}
+              {COMPANY_INFO.regCom ? ` · ${COMPANY_INFO.regCom}` : ""}
+            </p>
+            <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center">
+              <Link
+                href="/termeni"
+                className="hover:text-white transition-colors"
+              >
+                Termeni și Condiții
+              </Link>
+              <Link
+                href="/confidentialitate"
+                className="hover:text-white transition-colors"
+              >
+                Confidențialitate &amp; Cookies
+              </Link>
+            </div>
           </div>
         </div>
       </div>

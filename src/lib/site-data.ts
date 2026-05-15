@@ -9,6 +9,15 @@ export const NAV_LINKS: NavLink[] = [
   { name: "Contact", href: "/contact" },
 ];
 
+export const COMPANY_INFO = {
+  legalName: "S.C. English Beauty House S.R.L.",
+  cui: "49960236",
+  regCom: "J2024000437062",
+  addressLines: ["Str. Petre Ispirescu, nr. 21", "Bistrița, jud. Bistrița-Năsăud"],
+  phone: "0740 950 000",
+  email: "marketing@xbeauty.ro",
+} as const;
+
 export type FallbackDevice = {
   id: number;
   name: string;

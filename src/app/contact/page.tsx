@@ -6,20 +6,13 @@ import { PageHero } from "@/components/page-hero";
 import { ContactForm } from "@/components/contact-form";
 
 import { SITE_URL } from "@/lib/site-url";
+import { COMPANY_INFO } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
     "Contactează echipa XBeauty pentru oferte, consultanță sau demonstrații la clinica ta.",
   alternates: { canonical: `${SITE_URL}/contact` },
-};
-
-const COMPANY_INFO = {
-  legalName: "S.C. English Beauty House S.R.L.",
-  cui: "49960236",
-  address: "Bistrița, str. Petre Ispirescu, nr. 21, jud. B-N",
-  phone: "0740 950 000",
-  email: "marketing@xbeauty.ro",
 };
 
 export default function ContactPage() {
@@ -95,7 +88,7 @@ export default function ContactPage() {
                         Adresă
                       </p>
                       <p className="text-slate-900 font-medium">
-                        {COMPANY_INFO.address}
+                        {COMPANY_INFO.addressLines.join(", ")}
                       </p>
                     </div>
                   </li>
@@ -124,6 +117,12 @@ export default function ContactPage() {
                     <dt className="text-slate-400">C.U.I.</dt>
                     <dd className="text-white font-medium">{COMPANY_INFO.cui}</dd>
                   </div>
+                  {COMPANY_INFO.regCom ? (
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-slate-400">Reg. Com.</dt>
+                      <dd className="text-white font-medium">{COMPANY_INFO.regCom}</dd>
+                    </div>
+                  ) : null}
                 </dl>
               </div>
             </div>

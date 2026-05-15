@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { trackLead } from "@/lib/track";
+import { TurnstileWidget } from "./turnstile-widget";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -13,8 +15,20 @@ export function ContactForm() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [website, setWebsite] = useState(""); // honeypot
+  const [turnstileToken, setTurnstileToken] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
+
+  const onTurnstileToken = useCallback((token: string) => {
+    setTurnstileToken(token);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const prefill = params.get("subiect") ?? params.get("subject");
+    if (prefill) setSubject(prefill);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +49,7 @@ export function ContactForm() {
           subject,
           message,
           website,
+          turnstileToken,
         }),
       });
       const data = await res.json();
@@ -42,6 +57,7 @@ export function ContactForm() {
         throw new Error(data.error ?? "A apărut o eroare. Încearcă din nou.");
       }
       setStatus("success");
+      trackLead("contact_form");
       setFirstName("");
       setLastName("");
       setEmail("");
@@ -172,6 +188,8 @@ export function ContactForm() {
           placeholder="Spune-ne cu ce te putem ajuta..."
         />
       </label>
+
+      <TurnstileWidget onToken={onTurnstileToken} />
 
       {status === "error" && (
         <div className="flex items-start gap-2 text-sm text-rose-700 bg-rose-50 border border-rose-100 rounded-xl p-3">
